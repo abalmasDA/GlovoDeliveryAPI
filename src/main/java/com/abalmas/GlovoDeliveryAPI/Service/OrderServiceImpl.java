@@ -3,6 +3,9 @@ package com.abalmas.GlovoDeliveryAPI.Service;
 
 import com.abalmas.GlovoDeliveryAPI.DTO.OrderDTO;
 import com.abalmas.GlovoDeliveryAPI.DTO.ProductDTO;
+import com.abalmas.GlovoDeliveryAPI.Repository.OrderRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
+
     private final List<OrderDTO> orders = new ArrayList<>();
 
     @Override
