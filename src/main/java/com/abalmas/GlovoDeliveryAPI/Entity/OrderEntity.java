@@ -1,35 +1,38 @@
 package com.abalmas.GlovoDeliveryAPI.Entity;
 
-import com.abalmas.GlovoDeliveryAPI.DTO.ProductDTO;
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 public class OrderEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
-    @Column(name = "customer_name")
+    @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Column(name = "total_price")
-    private long totalPrice;
+    @Column(name = "total_price", nullable = false)
+    private int totalPrice;
 
-    @Column(name = "addition_date")
+    @Column(name = "addition_date", nullable = false)
     private LocalDate additionDate;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<ProductEntity> products;
 
 

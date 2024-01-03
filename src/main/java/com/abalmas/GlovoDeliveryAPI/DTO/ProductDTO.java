@@ -1,5 +1,8 @@
 package com.abalmas.GlovoDeliveryAPI.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductDTO {
-    private long id;
+
+    @NotEmpty(message = "Title cannot be empty")
     private String title;
-    private long price;
+
+    @NotNull(message = "Price cannot be null")
+    @Positive(message = "Price must be positive")
+    private int price;
 
 }

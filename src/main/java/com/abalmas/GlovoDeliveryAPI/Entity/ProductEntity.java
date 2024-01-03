@@ -1,29 +1,32 @@
 package com.abalmas.GlovoDeliveryAPI.Entity;
 
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 public class ProductEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "price")
-    private long price;
+    @Column(name = "price", nullable = false)
+    private int price;
 
     @ManyToOne
     @JoinColumn(name = "id_order", referencedColumnName = "id", nullable = false)
-    private OrderEntity orderEntity;
+    private OrderEntity order;
 
 }

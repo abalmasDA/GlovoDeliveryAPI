@@ -11,7 +11,7 @@ public interface OrderService {
 
     List<OrderDTO> findAll();
 
-    Optional<OrderDTO> findById(long id);
+    Optional<OrderDTO> findById(int id);
 
     OrderDTO add(OrderDTO orderDTO);
 
