@@ -8,6 +8,7 @@ import com.abalmas.GlovoDeliveryAPI.Entity.OrderEntity;
 import com.abalmas.GlovoDeliveryAPI.Entity.ProductEntity;
 import com.abalmas.GlovoDeliveryAPI.Repository.OrderRepository;
 import com.abalmas.GlovoDeliveryAPI.Repository.ProductRepository;
+import com.abalmas.GlovoDeliveryAPI.Utils.Exception.OrderNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +34,13 @@ public class OrderServiceDataBaseImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Optional<OrderDTO> findById(int id) {
-        return orderRepository.findById(id).map(orderConverter::toOrderDTO);
+
+    public OrderDTO findById(int id) {
+        return orderRepository.findById(id)
+                .map(orderConverter::toOrderDTO)
+                .orElseThrow(() -> new OrderNotFoundException("Order with ID " + id + " not found"));
     }
+
 
     @Override
     public OrderDTO add(OrderDTO orderDTO) {
@@ -51,8 +55,6 @@ public class OrderServiceDataBaseImpl implements OrderService {
     public OrderDTO update(int id, OrderDTO orderDTO) {
         return orderRepository.findById(id).map(orderEntity -> {
             orderEntity.setCustomerName(orderDTO.getCustomerName());
-            orderEntity.setTotalPrice(orderDTO.getTotalPrice());
-            orderEntity.setAdditionDate(orderDTO.getAdditionDate());
             OrderEntity updatedOrderEntity = orderRepository.save(orderEntity);
             return orderConverter.toOrderDTO(updatedOrderEntity);
         }).orElse(null);
