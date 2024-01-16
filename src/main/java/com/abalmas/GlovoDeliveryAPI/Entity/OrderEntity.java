@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+
 public class OrderEntity {
     @Id
     @Column(name = "id")

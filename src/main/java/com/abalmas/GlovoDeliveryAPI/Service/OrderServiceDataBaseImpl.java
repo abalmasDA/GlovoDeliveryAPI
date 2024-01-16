@@ -1,11 +1,12 @@
 package com.abalmas.GlovoDeliveryAPI.Service;
 
-import com.abalmas.GlovoDeliveryAPI.Converter.OrderConverter;
-import com.abalmas.GlovoDeliveryAPI.Converter.ProductConverter;
+
 import com.abalmas.GlovoDeliveryAPI.DTO.OrderDTO;
 import com.abalmas.GlovoDeliveryAPI.DTO.ProductDTO;
 import com.abalmas.GlovoDeliveryAPI.Entity.OrderEntity;
 import com.abalmas.GlovoDeliveryAPI.Entity.ProductEntity;
+import com.abalmas.GlovoDeliveryAPI.Mapper.OrderMapper;
+import com.abalmas.GlovoDeliveryAPI.Mapper.ProductMapper;
 import com.abalmas.GlovoDeliveryAPI.Repository.OrderRepository;
 import com.abalmas.GlovoDeliveryAPI.Repository.ProductRepository;
 import com.abalmas.GlovoDeliveryAPI.Utils.Exception.OrderNotFoundException;
@@ -23,31 +24,32 @@ public class OrderServiceDataBaseImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final OrderConverter orderConverter;
-    private final ProductConverter productConverter;
+    private final OrderMapper orderMapper;
+    private final ProductMapper productMapper;
+
 
     @Override
     public List<OrderDTO> findAll() {
         return orderRepository.findAll()
                 .stream()
-                .map(orderConverter::toOrderDTO)
+                .map(orderMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
 
     public OrderDTO findById(int id) {
         return orderRepository.findById(id)
-                .map(orderConverter::toOrderDTO)
+                .map(orderMapper::toDTO)
                 .orElseThrow(() -> new OrderNotFoundException("Order with ID " + id + " not found"));
     }
 
 
     @Override
     public OrderDTO add(OrderDTO orderDTO) {
-        OrderEntity orderEntity = orderConverter.toOrderEntity(orderDTO);
+        OrderEntity orderEntity = orderMapper.toEntity(orderDTO);
         orderEntity.getProducts()
                 .forEach(product -> product.setOrder(orderEntity));
-        return orderConverter.toOrderDTO(orderRepository.save(orderEntity));
+        return orderMapper.toDTO(orderRepository.save(orderEntity));
     }
 
 
@@ -56,18 +58,18 @@ public class OrderServiceDataBaseImpl implements OrderService {
         return orderRepository.findById(id).map(orderEntity -> {
             orderEntity.setCustomerName(orderDTO.getCustomerName());
             OrderEntity updatedOrderEntity = orderRepository.save(orderEntity);
-            return orderConverter.toOrderDTO(updatedOrderEntity);
+            return orderMapper.toDTO(updatedOrderEntity);
         }).orElse(null);
     }
 
     public Optional<OrderDTO> addProduct(int id, ProductDTO productDTO) {
         return orderRepository.findById(id).map(orderEntity -> {
-            ProductEntity productEntity = productConverter.toProductEntity(productDTO);
+            ProductEntity productEntity = productMapper.toEntity(productDTO);
             productEntity.setOrder(orderEntity);
             List<ProductEntity> products = orderEntity.getProducts();
             products.add(productEntity);
             OrderEntity updatedOrderEntity = orderRepository.save(orderEntity);
-            return orderConverter.toOrderDTO(updatedOrderEntity);
+            return orderMapper.toDTO(updatedOrderEntity);
         });
     }
 

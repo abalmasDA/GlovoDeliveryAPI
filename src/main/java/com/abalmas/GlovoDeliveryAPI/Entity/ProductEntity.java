@@ -7,12 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "products")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+
 public class ProductEntity {
     @Id
     @Column(name = "id")
