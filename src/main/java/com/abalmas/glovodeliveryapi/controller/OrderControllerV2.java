@@ -4,6 +4,9 @@ import com.abalmas.glovodeliveryapi.dto.OrderDto;
 import com.abalmas.glovodeliveryapi.dto.ProductDto;
 import com.abalmas.glovodeliveryapi.service.OrderServiceDataBaseImpl;
 import com.abalmas.glovodeliveryapi.utils.response.ResponseHandler;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @AllArgsConstructor
 @RestController
+@Hidden
 @RequestMapping("/v2/orders")
 public class OrderControllerV2 {
 
