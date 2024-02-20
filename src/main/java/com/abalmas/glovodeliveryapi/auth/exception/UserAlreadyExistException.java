@@ -1,10 +1,13 @@
 package com.abalmas.glovodeliveryapi.auth.exception;
 
+import lombok.Getter;
+
 /**
  * Exception thrown when attempting to create a new user with an email address that already exists
  * in the system. This exception indicates that a user with the same email address already exists
  * and prevents duplicate user creation.
  */
+@Getter
 public class UserAlreadyExistException extends RuntimeException {
 
   /**

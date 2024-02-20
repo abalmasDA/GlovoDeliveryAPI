@@ -2,6 +2,7 @@ package com.abalmas.glovodeliveryapi.auth.controller;
 
 import com.abalmas.glovodeliveryapi.auth.dto.SignUpDto;
 import com.abalmas.glovodeliveryapi.auth.entity.User;
+import com.abalmas.glovodeliveryapi.auth.exception.ErrorResponse;
 import com.abalmas.glovodeliveryapi.auth.service.RegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,23 +35,10 @@ public class RegistrationController {
    * @param signUpDto DTO containing new user's details such as username, password, etc.
    * @return The registered User entity if successful, or null if the registration fails.
    */
-  @Operation(summary = "Register user",
-      description = "This can only be done by the logged in user.", tags = {"Registration"})
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "User successfully registered",
-          content = {
-              @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = User.class))}),
-      @ApiResponse(responseCode = "400", description = "Invalid request body",
-          content = {
-              @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = String.class))}),
-      @ApiResponse(responseCode = "409", description = "User already exists",
-          content = {
-              @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = String.class))})})
+
   @PostMapping
   public User registerUser(@RequestBody @Valid SignUpDto signUpDto) {
     return registrationService.registerUser(signUpDto);
   }
+
 }
